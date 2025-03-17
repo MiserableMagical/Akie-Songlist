@@ -6,7 +6,8 @@
     <title>Akie秋绘 直播演唱歌曲统计</title>
     <style>
         span {
-            line-height: 110%;
+            line-height: 113%;
+            font-family: sans-serif;
         }
 
         table {
@@ -16,9 +17,11 @@
             font-family: Arial, sans-serif;
         }
 
-        h2 {
+        a {
+            font-size:24px;
             color:#ee9015;
             text-align: center;
+            text-decoration: none;
         }
 
         th, td {
@@ -72,6 +75,10 @@
             box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
         }
 
+        #tit {
+            text-align: center;
+        }
+
         body {
             background-image: url("pic.jpg");
             background-size: cover;
@@ -82,7 +89,8 @@
 </head>
 <body>
     <div id="home">
-        <h2>Akie秋绘</h2>
+        <div id="tit"><a href="https://space.bilibili.com/4176573"  target="_blank"><b>Akie秋绘</b></a></div>
+        <br>
         <span>统计范围：2025/3/2 ~ 2025/3/15</span>
         <br>
         <span id="totalnumber"> </span>
