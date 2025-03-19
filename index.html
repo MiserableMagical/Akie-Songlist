@@ -254,5 +254,23 @@
         var label2 = document.getElementById('totalsongs');
         label2.innerHTML = '<span>已经唱过 <b>' + sum + '</b> 首歌啦！</span>'
     </script>
+    <script>
+        function checkOrientation() {
+            if (window.screen.orientation) {
+                const type = window.screen.orientation.type;
+                const angle = window.screen.orientation.angle;
+                if(type == "portrait-primary" || type == "portrait-secondary") {
+                    const qwq = document.getElementsByTagName("body");
+                    const body = qwq[0];
+                    let bg_pic = body.style.backgroundImage;
+                    console.log(bg_pic);
+                    body.style.backgroundImage = "url('pic2.jpeg')";
+                    console.log(body.style.backgroundImage);
+                }
+            }
+        }
+    checkOrientation();
+        window.addEventListener('resize', checkOrientation);
+    </script>
 </body>
 </html>
