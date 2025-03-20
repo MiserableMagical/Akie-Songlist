@@ -267,6 +267,14 @@
                     body.style.backgroundImage = "url('pic2.jpeg')";
                     console.log(body.style.backgroundImage);
                 }
+                else {
+                    const qwq = document.getElementsByTagName("body");
+                    const body = qwq[0];
+                    let bg_pic = body.style.backgroundImage;
+                    console.log(bg_pic);
+                    body.style.backgroundImage = "url('pic.jpg')";
+                    console.log(body.style.backgroundImage);
+                }
             }
         }
     checkOrientation();
