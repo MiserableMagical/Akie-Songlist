@@ -19,7 +19,7 @@
 
         #title {
             font-size:24px;
-            color:#f09d30;
+            color:#ff8000;
             text-align: center;
             text-decoration: none;
         }
@@ -45,7 +45,7 @@
         }
 
         th:hover {
-            background-color: #f4b767;
+            background-color: #f4a737;
         }
 
         th.sort-asc::after {
@@ -67,7 +67,7 @@
         #home {
             margin: auto;
             opacity: 0.88;
-            width: 75%;
+            width: 72%;
             min-width: 950px;
             background-color: #fff;
             padding: 30px 70px 30px 70px;
@@ -86,17 +86,49 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
+
+        select {
+            width: 48%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-size: 1rem;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+            
+        select:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+        }
+            
+        select.multiple {
+            height: 150px;
+        }
     </style>
 </head>
 <body>
     <div id="home">
-        <div id="tit"><a id="title" href="https://space.bilibili.com/4176573"  target="_blank"><b>Akie秋绘</b></a></div>
+        <div id="tit">
+            <a id="title" href="https://space.bilibili.com/4176573"  target="_blank"><b>Akie秋绘</b></a><div>直播演唱歌曲不完全统计</div>
+        </div>
         <br><br>
-        <span>统计范围：2025/3/2 ~ 2025/5/17</span>
+        <span> 统计范围：2025/3/2 ~ 2025/5/23</span>
         <br>
         <span id="totalnumber"> </span>
         <br>
         <span id="totalsongs"> </span>
+        <br>
+        <span>
+            <select id="singer">
+                <option value="">全部歌手</option>
+            </select>
+            <select id="language" style="float:right;">
+                <option value="">全部语种</option>
+            </select>
+        </span>
         <table id="sortableTable">
             <thead>
                 <tr>
@@ -107,7 +139,7 @@
                     <th>语种</th>
                 </tr>
             </thead>
-            <tbody><tr><td>Da Capo</td><td>3</td><td>05/17</td><td>HOYO-MiX</td><td>英语</td></tr>
+            <tbody> <tr><td>Da Capo</td><td>3</td><td>05/17</td><td>HOYO-MiX</td><td>英语</td></tr>
 <tr><td>Departures</td><td>1</td><td>04/19</td><td>nan</td><td>nan</td></tr>
 <tr><td>Freesia/小苍兰</td><td>2</td><td>05/08</td><td>(K)NoW_NAME</td><td>日语</td></tr>
 <tr><td>Heavenly Me</td><td>1</td><td>05/08</td><td>nan</td><td>nan</td></tr>
@@ -226,7 +258,7 @@
 <tr><td>月兔回旋于空中</td><td>2</td><td>04/19</td><td>初音ミク</td><td>日语</td></tr>
 <tr><td>致川流的无名诗</td><td>4</td><td>05/23</td><td>Akie秋绘</td><td>国语</td></tr>
 <tr><td>珠玉</td><td>1</td><td>05/23</td><td>nan</td><td>国语</td></tr>
-</tbody>
+ </tbody>
         </table>
         <span> Author:<a href="https://space.bilibili.com/1448233736" target="_blank" style="text-decoration: none;color:deepskyblue">beacon_cwk</a></span>
     </div>
@@ -241,14 +273,12 @@
 
             headers.forEach((header, index) => {
                 header.addEventListener('click', () => {
-                    // 清除其他列的排序样式
                     headers.forEach(h => {
                         if (h !== header) {
                             h.classList.remove('sort-asc', 'sort-desc');
                         }
                     });
 
-                    // 切换排序方向
                     if (currentColumn === index) {
                         isAscending = !isAscending;
                     } else {
@@ -256,7 +286,6 @@
                         isAscending = false;
                     }
 
-                    // 更新排序样式
                     header.classList.toggle('sort-asc', isAscending);
                     header.classList.toggle('sort-desc', !isAscending);
 
@@ -272,7 +301,6 @@
                     const aVal = a.cells[column].textContent;
                     const bVal = b.cells[column].textContent;
                     
-                    // 尝试转换为数字进行比较
                     var slash = aVal.indexOf("/")
                     if(slash == -1) {
                         const aNum = parseFloat(aVal);
@@ -283,14 +311,11 @@
                         }
                     }
 
-                    
-                    // 字符串比较
-                    return asc ? 
+                        return asc ? 
                         aVal.localeCompare(bVal) : 
                         bVal.localeCompare(aVal);
                 });
 
-                // 清空并重新添加排序后的行
                 tbody.innerHTML = '';
                 rows.forEach(row => tbody.appendChild(row));
             }
@@ -340,6 +365,121 @@
         }
     checkOrientation();
         window.addEventListener('resize', checkOrientation);
+    </script>
+    <script>
+        function countAll(colID)
+        {
+            const table = document.getElementById('sortableTable');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const Map = {}
+            for(let i = 1;i < rows.length;i++)
+            {
+                const cells = rows[i].getElementsByTagName('td');
+                var str = cells[colID].textContent;
+                if(str in Map) {
+                    Map[str] = Map[str] + 1;
+                }
+                else {
+                    Map[str] = 1;
+                }
+            }
+            for(const key in Map)
+            {
+                console.log(key, Map[key]);
+            }
+            return Map
+        }
+        www = document.getElementById('www')
+        for(let i = 2;i <= 4;i++)
+        {
+            
+            var result = countAll(i);
+            for(const key in result)
+            {
+                var length = www.rows.length;
+                var newRow = www.insertRow(length);
+                newRow.insertCell(0);
+                newRow.insertCell(1);
+                newRow.cells[0].textContent = key;
+                newRow.cells[1].textContent = result[key];
+                //console.log(newRow.innerHTML);
+                //newRow.innerHTML = "<tr></tr>";
+            }
+            let cnt = 0;
+            for(const key in result)
+            {
+                cnt = cnt + 1;
+                if(i == 3) {
+                    var sel = document.getElementById('singer');
+                    var string = key + '(' + result[key].toString() + ')';
+                    sel.options.add(new Option(string, key))
+                }
+                if(i == 4) {
+                    var sel = document.getElementById('language');
+                    var string = key + '(' + result[key].toString() + ')';
+                    sel.options.add(new Option(string, key))
+                }
+            }
+        }
+    </script>
+    <script>
+        function filterTable(colID,targetVal)
+        {
+            numParams = colID.length;
+            //console.log(numParams);
+            //for(let j = 0;j < numParams;j++) console.log(targetVal[j]);
+            const table = document.getElementById('sortableTable');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            for(let i = 1;i < rows.length;i++)
+            {
+                const cells = rows[i].getElementsByTagName('td');
+                //console.log(cells[colID]);
+                let good = true;
+                for(let j = 0;j < numParams;j++) {
+                    if(targetVal[j] == '全部歌手' || targetVal[j] == '全部语种') continue;
+                    if(cells[colID[j]].textContent != targetVal[j])good = false;
+                }
+                if(good == true) {
+                    rows[i].style.display = "";
+                }
+                else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+        //实时监测选单的选项
+        var selectedSinger = '全部歌手';
+        var selectedLang = '全部语种';
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            const myselect = document.getElementById('singer');
+            myselect.addEventListener('change',function(){
+                if(this.value) {
+                    selectedSinger = this.value;
+                    console.log(this.options[this.selectedIndex].text);
+                }
+                else {
+                    selectedSinger = '全部歌手';
+                    console.log('全部歌手');
+                }
+                filterTable([3,4],[selectedSinger,selectedLang]);
+            });
+        });
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            const myselect = document.getElementById('language');
+            myselect.addEventListener('change',function(){
+                if(this.value) {
+                    selectedLang = this.value;
+                    console.log(this.options[this.selectedIndex].text);
+                }
+                else {
+                    selectedLang = '全部语种';
+                    console.log('全部语种');
+                }
+                filterTable([3,4],[selectedSinger,selectedLang]);
+            });
+        });
     </script>
 </body>
 </html>
